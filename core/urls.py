@@ -41,7 +41,7 @@ urlpatterns = [
     path('api/v1/accounts/', include('allauth.urls')),
     path('api/v1/registration/', include('dj_rest_auth.registration.urls')),
     # swagger
-    path('swagger/', scheme_view.with_ui('swagger', cache_timeout=0)),
+    path('', scheme_view.with_ui('swagger', cache_timeout=0)),
     # redoc
     path('redoc/', scheme_view.with_ui('redoc', cache_timeout=0))
 ]
