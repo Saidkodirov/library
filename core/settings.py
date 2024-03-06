@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ["*", "127.0.0.1:8000", "localhost", ".railway.app"]
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000'
 ]
-
+CORS_ORIGIN_WHITELIST = ['http://localhost:8000']
 
 # Application definition
 

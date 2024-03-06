@@ -1,5 +1,7 @@
 from .serializers import BookSerializer
 from .models import Books
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -16,6 +18,7 @@ class BookViewSet(ModelViewSet):
 
 # * APIView API Views
 class ListAPIView(APIView):
+    @method_decorator(csrf_exempt)
     def get(self, request):
         try:
             books = Books.objects.all()
@@ -31,6 +34,7 @@ class ListAPIView(APIView):
                 "message": "An error occured. Please try again !. Maybe there is no data in database."
             }
             return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    @method_decorator(csrf_exempt)
     def post(self, request):
         serializer = BookSerializer(data=request.data)
         if serializer.is_valid():
@@ -48,6 +52,7 @@ class ListAPIView(APIView):
             return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
             
 class DetailAPIView(APIView):
+    @method_decorator(csrf_exempt)
     def get(self, request, pk):
         try:
             book = Books.objects.get(pk=pk)
@@ -63,6 +68,7 @@ class DetailAPIView(APIView):
                 "message": "The books is not found with the given pk." 
             }
             return Response(data=data, status=status.HTTP_404_NOT_FOUND)
+    @method_decorator(csrf_exempt)
     def patch(self, request,pk):
         book = Books.objects.get(pk=pk)
         serializer_class = BookSerializer(book, data=request.data, partial=True)
@@ -79,6 +85,7 @@ class DetailAPIView(APIView):
                 "message": "The given data is not valid. Serializer ERROR."
             }
             return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    @method_decorator(csrf_exempt)
     def delete(self, request,pk):
         try:
             book = Books.objects.get(pk=pk)
@@ -115,6 +122,7 @@ class BookDeleteView(generics.DestroyAPIView):
     serializer_class = BookSerializer
 
 #* GENERIC API VIEWS
+
 class BookSpecialView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Books.objects.all()
     serializer_class = BookSerializer
